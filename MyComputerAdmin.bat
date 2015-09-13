@@ -468,11 +468,12 @@ echo  Jax's H4x Menu V2.0
 echo [==========================]
 echo     [1] Remote Shutdown
 echo     [2] Website IP Tracer
-echo     [3] DoSer (Ping)
+echo     [3] Pinger
 echo     [4] Skype IP Resolver (all friends)
 echo     [5] Detect ARP MITM Attacks
 echo     [6] Self Destruct (Delete MCA)
 echo     [7] Port Forwarder
+echo     [8] Folder Locker
 set /P hack=Hack:
 if %hack%==1 goto hack1
 if %hack%==2 goto webtrc
@@ -481,7 +482,97 @@ if %hack%==4 goto sresolve
 if %hack%==5 goto arpdetect
 if %hack%==6 goto destruct
 if %hack%==7 goto portfw
+if %hack%==8 goto Create_Pass
 
+:Create_Pass
+Set /P LockPass=Create a password:
+Echo A>Locker.Lock
+Echo Unlocked>>Locker.Lock
+Echo %LockPass%>>Locker.Lock
+
+:MainLock
+Cls
+Call :Collect_Info
+Call :Color 0E   "Status -" 0
+Call :Color 0%C% " %L_or_UL2%" 1
+Call :Color 09   "[R] to reset password" 1
+Echo.
+Set AccessLock=
+If /I %L_or_UL2% == Unlocked goto :Lock
+If /I %L_or_UL2% == Locked goto :Unlock
+
+:Lock
+Set /P AccessLock=Password to lock:
+If /I %AccessLock% == R (
+    Goto :resetPassword
+) Else (Goto :CheckPassLock)
+:CheckPassLock
+If %AccessLock% Neq %LockPass% (
+    Echo.& Echo Incorrect Password
+    Pause > nul
+    Goto :Main
+) Else (
+    Del /f /q Locker.Lock
+    Echo C>Locker.Lock
+    Echo Locked>>Locker.Lock
+    Echo %LockPass%>>Locker.Lock
+    Attrib +H +S Locker
+    Goto :Main
+)
+
+:Unlock
+Set /P AccessLock=Password to unlock:
+If /I %AccessLock% == R (
+    Goto :resetPassword
+) Else (Goto :CheckPassUnlock)
+:CheckPassUnlock
+If %AccessLock% Neq %LockPass% (
+    Echo.& Echo Incorrect Password
+    Pause > nul
+    Goto :MainLock
+) Else (
+    Del /f /q Locker.Lock
+    Echo A>Locker.Lock
+    Echo Unlocked>>Locker.Lock
+    Echo %LockPass%>>Locker.Lock
+    Attrib -H -S Locker
+    Goto :MainLock
+)
+
+:resetPassword
+Cls
+Set /P checkOldPass=Old Password:
+If %checkOldPass% neq %LockPass% (
+    Echo.& Echo Incorrect Password
+    Pause > nul
+    Goto :MainLock
+) Else (
+    Set /P newPassword=New Password:
+)
+Del /f /q Locker.Lock
+Echo %C%>Locker.Lock
+Echo %L_or_UL2%>>Locker.Lock
+Echo %newPassword%>>Locker.Lock
+Goto :Main
+
+:Collect_Info
+< Locker.Lock (
+    Set /P C=
+    Set /P L_or_UL2=
+    Set /P LockPass=
+)
+Goto :home
+
+:Color
+Set nL=%3
+If not defined nL Echo Requires third argument & Pause > nul & Goto :Eof
+If %3 == 0 (
+    <nul set /p ".=%BS%">%2 & Findstr /V /A:%1 /R "^$" %2 nul & Del %2 2>&1
+    Goto :home
+) Else If %3 == 1 (
+    Echo %BS%>%2 & Findstr /V /A:%1 /R "^$" %2 nul & Del %2 2>&1
+    Goto :home
+)
 :portfw
 echo Layout: [Port][Method](Possibly:)[Name]
 echo.
