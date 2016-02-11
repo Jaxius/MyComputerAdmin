@@ -24,7 +24,7 @@ color 0a
 echo ======--.Made by Jax B.--======
 echo   MCA Account Login/Register
 echo ===============================
-echo Found any glitches/Bugs? Report them to TheJaxFiles via Skype :)
+echo Found any glitches/Bugs? Report them to http://theoryforums.net via Skype :)
 echo.
 echo [1] Log In
 echo [2] Sign Up
@@ -819,7 +819,7 @@ if "%dstPort%"=="[" set name=!pid_%pid%!
 
 if "%name%"=="" set name=Unknown
 
-::Skype filter
+::Skp filter
 if "%skype%"=="1" (
 if /I not "%name%"=="skype.exe" exit /b
 if not "%state%"=="ESTABLISHED" exit /b
