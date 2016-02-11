@@ -766,9 +766,13 @@ pause >nul
 goto home
 :destruct
 set /p=destructconfirmation:
-if %destructconfirmation% == yes goto descript
-:descript
-Are you sure you want to delete MyComputerAdmin
+if %destructconfirmation% == yes goto delMCA
+set /p=delMCA:
+if %delMCA%== no goto home
+:delMC
+remdir */desktop/mca.bat
+del mca.bat
+
 :sresolve
 set param=%~1
 
