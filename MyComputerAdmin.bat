@@ -841,13 +841,4 @@ set srcPortTab=%srcPortTab:~-5%
 if not "%state%"=="LISTENING" echo.%namePidTab% %srcIPPortTab% %dstIPPortTab% %stateTab%
 if "%state%"=="LISTENING" echo.%namePidTab% Listening on: %srcPortTab%
 pause >nul
-if %state%=="json.value" echo Version Out of Date!~
-<html>
-<javascript>
-{
-Public function var2; define as boolean
-If json.value=(.5.1'alphaversion) then
-CALL Update_Function.file
-}
-</java>
 goto home
